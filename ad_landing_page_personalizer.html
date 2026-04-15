@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Troopod - AI Landing Page Personalizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ad_landing_page_personalizer.css" />
+</head>
+
+<body>
+  <div class="app">
+    <div class="header">
+      <h1>Landing page personalizer</h1>
+      <p>Match your landing page copy to your ad creative using CRO principles</p>
+    </div>
+
+    <div class="card form-container">
+      <div class="api-row" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div>
+          <label class="label">Gemini API key</label>
+          <input type="text" id="geminiKey" placeholder="AIza..." onblur="loadModels()" />
+        </div>
+        <div>
+          <label class="label">Model <span id="modelLoadingStatus" style="font-size:10px;color:var(--color-text-secondary);font-weight:normal;"></span></label>
+          <select id="geminiModel">
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+          </select>
+        </div>
+        <div>
+          <label class="label">Landing page Link</label>
+          <input type="url" id="landingUrl" placeholder="https://example.com/page" />
+        </div>
+      </div>
+
+      <div class="tab-row">
+        <div class="tab active" id="tabUpload" onclick="switchTab('upload')">Upload image</div>
+        <div class="tab" id="tabUrl" onclick="switchTab('url')">Image URL</div>
+        <div class="tab" id="tabDesc" onclick="switchTab('desc')">Describe ad</div>
+      </div>
+
+      <div id="panelUpload">
+        <label class="label">Ad creative</label>
+        <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+          Click to upload ad image (PNG, JPG, WebP)
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFile(this)" />
+        <img id="imagePreview" />
+      </div>
+
+      <div id="panelUrl" style="display:none">
+        <label class="label">Ad image URL</label>
+        <input type="url" id="adImageUrl" placeholder="https://..." />
+      </div>
+
+      <div id="panelDesc" style="display:none; margin-top:4px">
+        <label class="label">Describe your ad</label>
+        <textarea id="adDesc" rows="3"
+          placeholder="e.g. A Facebook ad for a project management tool targeting startup founders. Headline: 'Ship 3x faster'. CTA: 'Start free trial'. Dark background, orange CTA button..."></textarea>
+      </div>
+    </div>
+
+    <button class="run-btn" id="runBtn" onclick="runPersonalization()">Personalize landing page</button>
+    <div class="status" id="status"></div>
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="results" id="results" style="display:none"></div>
+  </div>
+
+  <script src="ad_landing_page_personalizer.js"></script>
+</body>
+
+</html>
